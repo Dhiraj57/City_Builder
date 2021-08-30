@@ -9,6 +9,7 @@ public class MousePosition : MonoBehaviour
 
     private Camera mainCamera;
     [SerializeField] private LayerMask layer;
+    [SerializeField] private LayerMask objectLayer;
 
     private void Awake()
     {
@@ -40,5 +41,29 @@ public class MousePosition : MonoBehaviour
         }
         else
             return Vector3.zero;
+    }
+
+    public bool CheckCollision()
+    {
+        mainCamera = Camera.main;
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, objectLayer))
+        {
+            return false;        
+        }
+        else
+            return true;
+    }
+
+    public void Remove()
+    {
+        mainCamera = Camera.main;
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, objectLayer))
+        {
+            Destroy(raycastHit.collider.gameObject.transform.parent.gameObject);
+        }
     }
 }
