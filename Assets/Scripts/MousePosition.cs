@@ -7,9 +7,9 @@ public class MousePosition : MonoBehaviour
     private static MousePosition instance;
     public static MousePosition Instance { get { return instance; } }
 
-    private Camera mainCamera;
     [SerializeField] private LayerMask layer;
     [SerializeField] private LayerMask objectLayer;
+    private Camera mainCamera;
 
     private void Awake()
     {
@@ -22,11 +22,6 @@ public class MousePosition : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Update()
-    {
-        GetWorldMousePosition();
     }
 
     public Vector3 GetWorldMousePosition()
@@ -63,6 +58,7 @@ public class MousePosition : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, objectLayer))
         {
+            SoundManager.Instance.Play(SoundManager.Sounds.Remove);
             Destroy(raycastHit.collider.gameObject.transform.parent.gameObject);
         }
     }

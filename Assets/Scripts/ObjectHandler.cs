@@ -6,14 +6,18 @@ using UnityEngine.UI;
 public class ObjectHandler : MonoBehaviour
 {
     private List<Transform> objectTransformList;
-
     [HideInInspector] public int objectIndex;
+
     private int listSize;
+    private bool isUIvisible;
+
     [HideInInspector] public bool isSpawn;
     [HideInInspector] public bool isAddObject;
     [HideInInspector] public bool isRemoveObject;
     [HideInInspector] public bool isVisible;
+
     [SerializeField] private GameObject infoText;
+    [SerializeField] private GameObject infoText2;
 
     private void Awake()
     {
@@ -23,13 +27,15 @@ public class ObjectHandler : MonoBehaviour
         isSpawn = false;
         isVisible = false;
         isRemoveObject = false;
+        isUIvisible = false;
+
+        StartCoroutine(CloseInstructions());
     }
 
     public void AddObject(int x, int z)
     {
         objectTransformList.Add(transform);
         objectTransformList[listSize].position = new Vector3(x, 0, z);      
-        //Debug.Log(objectTransformList[listSize].position);
         listSize++;
     }
 
@@ -40,13 +46,6 @@ public class ObjectHandler : MonoBehaviour
         infoText.SetActive(true);
         isRemoveObject = true;
         isAddObject = false;
-
-        //listSize--;
-
-        for (int i = 0; i < listSize; i++)
-        {
-            //Debug.Log(objectTransformList[i].position);
-        }
     }
 
     public bool CheckGridPosition(Vector3 position)
@@ -63,19 +62,41 @@ public class ObjectHandler : MonoBehaviour
 
     public void ObjectIndexSelector(int Id)
     {
+        SoundManager.Instance.Play(SoundManager.Sounds.ButtonClick);
         objectIndex = Id;
         isSpawn = true;
         isAddObject = true;
-        infoText.SetActive(true);
+        //infoText.SetActive(true);
         isRemoveObject = false;
     }
 
     public void ViewMode()
     {
+        SoundManager.Instance.Play(SoundManager.Sounds.ButtonClick);
         isSpawn = false;
         isAddObject = false;
-        infoText.SetActive(false);
+        //infoText.SetActive(false);
         isRemoveObject = false;
+
+        if(isUIvisible)
+        {
+            isUIvisible = false;
+            infoText.SetActive(false);
+        }
+        else
+        {
+            isUIvisible = true;
+            infoText.SetActive(true);
+        }
+    }
+
+    private IEnumerator CloseInstructions()
+    {
+        yield return new WaitForSeconds(6);
+
+        infoText2.SetActive(false);
+
+        yield break;
     }
 
 }

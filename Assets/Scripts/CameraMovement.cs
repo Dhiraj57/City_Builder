@@ -11,55 +11,43 @@ public class CameraMovement : MonoBehaviour
     }
 
     [SerializeField] private Axis axis = Axis.XZ;
-    [SerializeField] private float moveSpeed = 50f;
+    private float moveSpeed = 40f;
+    //[SerializeField] private Vector3 rotation = new Vector3(25,0,0);
+    float moveAngle = 0;
 
+    public float turnSpeed = 4.0f;
+    public float minTurnAngle = -90.0f;
+    public float maxTurnAngle = 90.0f;
+    private float rotX;
 
+    private Vector3 moveDir;
 
-    private void Update()
+    private void FixedUpdate()
     {
-        float moveX = 0f;
-        float moveY = 0f;
+        MouseAiming();
+        KeyboardMovement();
+    }
 
-        if (Input.GetKey(KeyCode.W))
+    void MouseAiming()
+    {
+        if (Input.GetKey(KeyCode.E))
         {
-            moveY = +1f;
+            moveAngle = -0.5f;
         }
-        if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.Q))
         {
-            moveY = -1f;
+            moveAngle = 0.5f;
         }
-        if (Input.GetKey(KeyCode.A))
-        {
-            moveX = -1f;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            moveX = +1f;
-        }
+        else
+            moveAngle = 0;
 
-        Vector3 moveDir;
-
-        switch (axis)
-        {
-            default:
-            case Axis.XZ:
-                moveDir = new Vector3(moveX, 0, moveY).normalized;
-                break;
-            case Axis.XY:
-                moveDir = new Vector3(moveX, moveY).normalized;
-                break;
-        }
-
-        if (moveX != 0 || moveY != 0)
-        {
-            // Not idle
-        }
-
-        if (axis == Axis.XZ)
-        {
-            moveDir = Quaternion.Euler(0, 30f, 0) * moveDir;
-        }
-
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
+        transform.eulerAngles = new Vector3(rotX, transform.eulerAngles.y + moveAngle, 0);
+    }
+    void KeyboardMovement()
+    {
+        Vector3 dir = new Vector3(0, 0, 0);
+        dir.x = Input.GetAxis("Horizontal");
+        dir.z = Input.GetAxis("Vertical");
+        transform.Translate(dir * moveSpeed * Time.deltaTime);
     }
 }

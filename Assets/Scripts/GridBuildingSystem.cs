@@ -7,49 +7,37 @@ public class GridBuildingSystem : MonoBehaviour
     [SerializeField] private ObjectHandler objectHandler;
     [SerializeField] private List<ObjectTypeSO> spawnObjectList;
     [SerializeField] private List<GameObject> showObjectList;
-    private List<GameObject> gameObjectList;
-    private List<string> objectNameList;
-
-    private int listSize;
+    private ObjectTypeSO.Dir dir = ObjectTypeSO.Dir.Right;
 
     private ObjectTypeSO spawnObject;
     private GameObject showObject;
 
-    private ObjectTypeSO.Dir dir = ObjectTypeSO.Dir.Right;
-    private GridSystem<GridObject> grid;
+    private GridSystem grid;
+
     private Vector3 mousePosition;
+    private Vector3 offsetPosition;
     private Vector2Int spawnPosition;
+
+    private int gridWidth;
+    private int gridHeight;
+
+    private float cellSize;
 
     private void Awake()
     {
-        int gridWidth = 10;
-        int gridHeight = 10;
-        float cellSize = 10f;
-        grid = new GridSystem<GridObject>(gridWidth, gridHeight, cellSize, new Vector3(-33, 0, -66));
+        gridWidth = 10;
+        gridHeight = 10;
+        cellSize = 10f;
+        offsetPosition = new Vector3(-33, 0, -66);
+
+        grid = new GridSystem(gridWidth, gridHeight, cellSize, offsetPosition);
+
         spawnObject = spawnObjectList[0];
-        listSize = 0;
-
-        //isVisible = false;
-    }
-
-    public class GridObject
-    {
-        private GridSystem<GridObject> grid;
-        private int x;
-        private int z;
-
-        public GridObject(GridSystem<GridObject> grid, int x, int z)
-        {
-            this.grid = grid;
-            this.x = x;
-            this.z = z;
-        }
     }
 
     private void Update()
     {
         SetObjectRotation();
-        //SelectObjectType();
         SpawnObject();
         ShowObject();
         RemoveObject();
@@ -60,7 +48,7 @@ public class GridBuildingSystem : MonoBehaviour
         if ((MousePosition.Instance.GetWorldMousePosition() == Vector3.zero))
         {
             objectHandler.isVisible = false;
-            if (showObject != null) { Destroy(showObject); }
+            if(showObject != null) { Destroy(showObject); }
         }
         else if(objectHandler.isSpawn)
         {
@@ -83,11 +71,6 @@ public class GridBuildingSystem : MonoBehaviour
             showObject.transform.rotation = Quaternion.Euler(0, spawnObject.GetRotationAngle(dir), 0);
         }           
 
-        //if (objectHandler.CheckGridPosition(new Vector3(spawnPosition.x, 0, spawnPosition.y)))
-        {
-            //Instantiate(spawnObject.prefab, grid.GetSpawnPosition(spawnPosition.x, spawnPosition.y), Quaternion.identity);
-            //objectHandler.AddObject(spawnPosition.x, spawnPosition.y);
-        }
     }
 
     private void SpawnObject()
@@ -104,9 +87,8 @@ public class GridBuildingSystem : MonoBehaviour
                 if (objectHandler.CheckGridPosition(new Vector3(spawnPosition.x - rotationOffset.x, 0, spawnPosition.y - rotationOffset.y)))
                 {
                     Instantiate(spawnObjectList[objectHandler.objectIndex].prefab, grid.GetSpawnPosition(spawnPosition.x, spawnPosition.y), Quaternion.Euler(0, spawnObject.GetRotationAngle(dir), 0));
-                    //listSize++;
-                    //objectNameList.Add(gameObjectList[listSize].name);
                     objectHandler.AddObject(spawnPosition.x - rotationOffset.x, spawnPosition.y - rotationOffset.y);
+                    SoundManager.Instance.Play(SoundManager.Sounds.Spawn);
                 }
             }
         }      
@@ -124,41 +106,7 @@ public class GridBuildingSystem : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && objectHandler.isRemoveObject)
         {
-            MousePosition.Instance.Remove();
+            MousePosition.Instance.Remove();          
         }
     }
-
-    /*private void SelectObjectType()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) 
-        { 
-            spawnObject = spawnObjectList[0];
-            spawnIndex = 0;
-            Destroy(showObject);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2)) 
-        {
-            spawnObject = spawnObjectList[1];
-            spawnIndex = 1;
-            Destroy(showObject);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3)) 
-        { 
-            spawnObject = spawnObjectList[2];
-            spawnIndex = 2;
-            Destroy(showObject);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4)) 
-        { 
-            spawnObject = spawnObjectList[3];
-            spawnIndex = 3;
-            Destroy(showObject);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5)) 
-        { 
-            spawnObject = spawnObjectList[4];
-            spawnIndex = 4;
-            Destroy(showObject);
-        }
-    }*/
 }
