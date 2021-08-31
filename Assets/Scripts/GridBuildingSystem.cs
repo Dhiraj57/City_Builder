@@ -7,8 +7,8 @@ public class GridBuildingSystem : MonoBehaviour
     [SerializeField] private ObjectHandler objectHandler;
     [SerializeField] private List<ObjectTypeSO> spawnObjectList;
     [SerializeField] private List<GameObject> showObjectList;
-    private ObjectTypeSO.Dir dir = ObjectTypeSO.Dir.Right;
 
+    private ObjectTypeSO.Dir dir;
     private ObjectTypeSO spawnObject;
     private GameObject showObject;
 
@@ -32,6 +32,7 @@ public class GridBuildingSystem : MonoBehaviour
 
         grid = new GridSystem(gridWidth, gridHeight, cellSize, offsetPosition);
 
+        dir = ObjectTypeSO.Dir.Right;
         spawnObject = spawnObjectList[0];
     }
 

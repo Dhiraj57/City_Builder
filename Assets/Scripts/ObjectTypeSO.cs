@@ -6,9 +6,9 @@ using UnityEngine;
 [CreateAssetMenu]
 public class ObjectTypeSO : ScriptableObject
 {
-    public string nameString;
     public GameObject prefab;
     public Transform visual;
+    public string nameString;
     public int width;
     public int height;  
 

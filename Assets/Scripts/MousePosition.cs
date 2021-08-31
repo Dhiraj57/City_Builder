@@ -9,6 +9,7 @@ public class MousePosition : MonoBehaviour
 
     [SerializeField] private LayerMask layer;
     [SerializeField] private LayerMask objectLayer;
+
     private Camera mainCamera;
 
     private void Awake()
@@ -35,7 +36,9 @@ public class MousePosition : MonoBehaviour
             return raycastHit.point;
         }
         else
+        {
             return Vector3.zero;
+        }       
     }
 
     public bool CheckCollision()
@@ -48,7 +51,9 @@ public class MousePosition : MonoBehaviour
             return false;        
         }
         else
+        {
             return true;
+        }         
     }
 
     public void Remove()

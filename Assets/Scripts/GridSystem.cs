@@ -46,7 +46,7 @@ public class GridSystem
 
     public Vector3 GetSpawnPosition(int x, int z)
     {
-        return new Vector3(x, 0, z) * cellSize + originPosition + new Vector3(0,0,10);
+        return new Vector3(x, 0, z) * cellSize + originPosition + new Vector3(0, 0, cellSize);
     }
 
 }

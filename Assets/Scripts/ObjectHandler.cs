@@ -41,9 +41,10 @@ public class ObjectHandler : MonoBehaviour
 
     public void RemoveObject()
     {
+        SoundManager.Instance.Play(SoundManager.Sounds.ButtonClick);
         objectIndex = 5;
-        isSpawn = true;
         infoText.SetActive(true);
+        isSpawn = true;
         isRemoveObject = true;
         isAddObject = false;
     }
@@ -66,7 +67,6 @@ public class ObjectHandler : MonoBehaviour
         objectIndex = Id;
         isSpawn = true;
         isAddObject = true;
-        //infoText.SetActive(true);
         isRemoveObject = false;
     }
 
@@ -75,7 +75,6 @@ public class ObjectHandler : MonoBehaviour
         SoundManager.Instance.Play(SoundManager.Sounds.ButtonClick);
         isSpawn = false;
         isAddObject = false;
-        //infoText.SetActive(false);
         isRemoveObject = false;
 
         if(isUIvisible)

@@ -236,7 +236,7 @@ MonoBehaviour:
   - soundType: 1
     soundClip: {fileID: 8300000, guid: 13375c3ab225a1c439ada152c589f51d, type: 3}
   - soundType: 0
-    soundClip: {fileID: 8300000, guid: 615dd42467bb23b4bb4a28e9eba3fec6, type: 3}
+    soundClip: {fileID: 8300000, guid: 6b52a9fbf5472df46b1ab5f3cf7300db, type: 3}
   - soundType: 2
     soundClip: {fileID: 8300000, guid: 9a06a77b12f76ee47a8637efede17d90, type: 3}
   - soundType: 3
@@ -665,7 +665,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 25da645992a8ed545a3cf59a137fbecb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2c974759e3199bb47b409f76413690ff, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
